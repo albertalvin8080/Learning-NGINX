@@ -1,5 +1,15 @@
 version: '3.8'
 
+#Anchor | Alias 
+x-deploy: &deploy
+  deploy:
+    resources:
+      reservations:
+        devices:
+          - driver: nvidia
+            count: all
+            capabilities: [ gpu ]
+
 services:
   nginx:
     # build: 
@@ -12,12 +22,23 @@ services:
     volumes:
       - "./nginx:/etc/nginx"
       - "./html:/usr/share/nginx/html"
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities: [ gpu ]
-
+    <<: *deploy
 # docker-compose exec -it nginx bash
+  
+  server1:
+    image: albertalvin/nginx-demo
+    container_name: server1
+    ports:
+      - "1111:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    <<: *deploy
+  
+  server2:
+    image: albertalvin/nginx-demo
+    container_name: server2
+    ports:
+      - "2222:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    <<: *deploy
