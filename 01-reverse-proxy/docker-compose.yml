@@ -11,18 +11,22 @@ x-deploy: &deploy
             capabilities: [ gpu ]
 
 services:
+
+  # docker-compose exec -it nginx bash
   nginx:
     build: .
     container_name: nginx
     ports:
-      - 80:80
+      - "80:80"
     volumes:
       - ./nginx/html:/usr/share/nginx/html
       - ./nginx/conf.d/:/etc/nginx/conf.d/
+    depends_on:
+      - dns
     <<: *deploy
-# docker-compose exec -it nginx bash
-
+    
 # NOTE: You could simply edit the `hosts` file instead.
+# You must change the DNS server to 127.0.0.1, because this container is inside your machine in the port 53 (exclusive for DNS servers).
   dns:
     build: ./dns/
     container_name: dns
@@ -31,5 +35,6 @@ services:
       - ./dns/named.conf:/etc/bind/named.conf
       - ./dns/zone/:/etc/bind/zone/
     ports:
-      - 53:53/udp
+      - "53:53"
+      - "53:53/udp"
     command: named -c /etc/bind/named.conf -g -u named
