@@ -19,6 +19,7 @@ services:
       - "80:80"
     volumes:
       - ./nginx/conf.d/:/etc/nginx/conf.d/
+      - ./static/:/app/resources/static/
     depends_on:
       - dns
     <<: *deploy
@@ -38,6 +39,8 @@ services:
   springboot1:
     image: albertalvin/nginx-backend
     container_name: springboot1
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
+    # environment:
+    #   - SPRING_PROFILES_ACTIVE=docker
+    env_file:
+      - ./.env/dev.env
     <<: *deploy

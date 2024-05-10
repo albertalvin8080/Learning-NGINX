@@ -1,4 +1,4 @@
-package com.albert.nginxbackend;
+package org.albert.nginxbackend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
