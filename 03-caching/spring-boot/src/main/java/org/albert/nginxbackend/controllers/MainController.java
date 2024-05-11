@@ -13,7 +13,7 @@ public class MainController
     @GetMapping
     public String main(HttpServletRequest httpServletRequest) {
         log.info("Request URL: {}", httpServletRequest.getRequestURL());
-        log.info("Remote Host: {}", httpServletRequest.getRemoteHost()); // it's probably to be the IP of the NGINX container
+        log.info("Remote Host: {}", httpServletRequest.getRemoteHost()); // It's probably to be the IP of the NGINX container
         return "main";
     }
 

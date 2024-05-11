@@ -20,21 +20,20 @@ services:
     volumes:
       - ./nginx/conf.d/:/etc/nginx/conf.d/
       - ./static/:/app/resources/static/
-    depends_on:
-      - dns
     <<: *deploy
     
-  dns:
-    build: ./dns/
-    container_name: dns
-    restart: unless-stopped
-    volumes:
-      - ./dns/named.conf:/etc/bind/named.conf
-      - ./dns/zone/:/etc/bind/zone/
-    ports:
-      - "53:53"
-      - "53:53/udp"
-    command: named -c /etc/bind/named.conf -g -u named
+    # Using 'hosts' file for convenience.
+  # dns:
+  #   build: ./dns/
+  #   container_name: dns
+  #   restart: unless-stopped
+  #   volumes:
+  #     - ./dns/named.conf:/etc/bind/named.conf
+  #     - ./dns/zone/:/etc/bind/zone/
+  #   ports:
+  #     - "53:53"
+  #     - "53:53/udp"
+  #   command: named -c /etc/bind/named.conf -g -u named
 
   springboot1:
     image: albertalvin/nginx-backend
