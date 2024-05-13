@@ -25,7 +25,6 @@ public class MainController
         return "test";
     }
 
-    // Not used
     @ResponseBody
     @GetMapping(path = "/json", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> json() {
