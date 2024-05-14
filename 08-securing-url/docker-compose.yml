@@ -13,13 +13,13 @@ x-deploy: &deploy
 services:
   # docker-compose exec -it nginx bash
   nginx:
-    # It may be necessary to enable ngx_http_secure_link_module manually.
+    # build: ./nginx/
     image: nginx:1.26
     container_name: nginx
     ports:
       - "80:80"
     volumes:
-      - ./nginx/conf.d/:/etc/nginx/conf.d/
+      - ./nginx/config/conf.d/:/etc/nginx/conf.d/
       - ./nginx/app/:/app/
     <<: *deploy
     
