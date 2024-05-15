@@ -7,17 +7,6 @@ import java.util.Base64;
 import java.util.Date;
 
 public class GenerateSecureLink {
-
-    public static String generateSecureLink(String secret, String uri, long expires)
-            throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        String formattedStr = String.format("%s:%s:%d", secret, uri, expires);
-
-        byte[] md5Bytes = MessageDigest.getInstance("MD5").digest(formattedStr.getBytes("UTF-8"));
-        String md5String = Base64.getUrlEncoder().withoutPadding().encodeToString(md5Bytes);
-
-        return String.format("%s?md5=%s&expires=%d", uri, md5String, expires);
-    }
-
     public static void main(String[] args)
             throws NoSuchAlgorithmException, UnsupportedEncodingException, ParseException {
         String secret = "1234567";
@@ -30,5 +19,15 @@ public class GenerateSecureLink {
 
         String secureLink = generateSecureLink(secret, uri, expires);
         System.out.println(secureLink);
+    }
+
+    public static String generateSecureLink(String secret, String uri, long expires)
+            throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        String formattedStr = String.format("%s:%s:%d", secret, uri, expires);
+
+        byte[] md5Bytes = MessageDigest.getInstance("MD5").digest(formattedStr.getBytes("UTF-8"));
+        String md5String = Base64.getUrlEncoder().withoutPadding().encodeToString(md5Bytes);
+
+        return String.format("%s?md5=%s&expires=%d", uri, md5String, expires);
     }
 }
